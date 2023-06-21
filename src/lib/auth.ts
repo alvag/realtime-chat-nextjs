@@ -10,7 +10,7 @@ function getGoogleCredentials() {
     if (!clientId || !clientSecret) {
         throw new Error('Missing Google credentials');
     }
-
+    
     return {clientId, clientSecret};
 }
 
