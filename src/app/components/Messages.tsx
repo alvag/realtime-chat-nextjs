@@ -2,16 +2,24 @@
 
 import { useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import Image from 'next/image';
 
 interface Props {
     initialMessages: Message[];
     sessionId: string;
+    sessionImg: string;
+    chatPartner: User;
 }
 
-export const Messages = ({initialMessages, sessionId}: Props) => {
+export const Messages = ({initialMessages, sessionId, sessionImg, chatPartner}: Props) => {
     const [messages, setMessages] = useState(initialMessages);
 
     const scrollDownRef = useRef<HTMLDivElement | null>( null );
+
+    const formatTimestamp = ( timestamp: number ) => {
+        return format(timestamp, 'HH:mm');
+    }
 
     return (
         <div id="messages" className="flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-rounded scrollbar-track-blue scrollbar-w-2 scrolling-touch">
@@ -39,9 +47,22 @@ export const Messages = ({initialMessages, sessionId}: Props) => {
                                 })}>
                                     {message.text}{' '}
                                     <span className="ml-2 text-xs text-gray-400">
-                                        {message.timestamp}
+                                        {formatTimestamp(message.timestamp)}
                                     </span>
                                 </span>
+                            </div>
+
+                            <div className={cn('relative w-6 h-6', {
+                                'order-2': isCurrentUser,
+                                'order-1': !isCurrentUser,
+                                'invisible': hasNextMessageFromSameUser,
+                            })}>
+                                <Image fill
+                                       className="rounded-full"
+                                       src={isCurrentUser ? sessionImg : chatPartner.image}
+                                       alt="Profile picture"
+                                       referrerPolicy="no-referrer"
+                                />
                             </div>
                         </div>
                     </div>
