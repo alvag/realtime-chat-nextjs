@@ -17,6 +17,8 @@ export const ChatInput = ({chatPartner, chatId}: Props) => {
     const [input, setInput] = useState('')
 
     const sendMessage = async() => {
+        if (input.trim() === '') return;
+
         setIsLoading(true);
 
         try {
