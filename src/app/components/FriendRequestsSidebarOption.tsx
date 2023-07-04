@@ -29,7 +29,7 @@ export const FriendRequestsSidebarOption = ({initialUnseenRequestCount, sessionI
             pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:incoming_friend_requests`));
             pusherClient.unbind('incoming_friend_requests', friendRequestHandler);
         };
-    }, []);
+    }, [sessionId]);
 
     return (
         <Link href="/dashboard/requests" className="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
